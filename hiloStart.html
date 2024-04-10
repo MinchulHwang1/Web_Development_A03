@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+    This source is basic source of Hi-lo game developed through HTML code.
+    It is actually do as assignment 1 of WDD
+    This program need 4 ASP file called (Hilo_Input_Number, Hilo_Check_Number, Hilo_Guess_Number, and Hilo_Win)
+     - Insert your name first.
+     - Choose the maximum number whatever you want
+       - the number should be higher than 1
+       - the number type should be integer
+     - Press Submit button, then the random number will be occur between 1 and the number you inserted
+     - track the random number until you find it.
+-->
+<html>
+<head>
+    <title>hiloStart.html - WDD A03</title>
+
+    <script type = "text/JavaScript">
+        
+        // ------- Function Comment -------
+        // Name     : SetCookie
+        // Purpose  : Set Value as Cookie.
+        // Input    : cookieName        the name which is set as cookie
+        //            cookieValue       the value which is in cookie
+        //            numDays           the set date wthen the cookie is made
+        // Output   : None
+        // Returns  : None
+        function setCookie(cookieName, cookieValue, numDays) 
+        {
+		    var d = new Date();	
+		    d.setTime(d.getTime() + (numDays * 24 * 60 * 60 * 1000));
+		    var expires = "expires="+d.toUTCString();
+		    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+        }
+
+
+        // ------- Function Comment -------
+        // Name     : validName
+        // Purpose  : this function is for the submit button called 'submit', and it can action each situation when user inserts name
+        // Input    : which             a button variable
+        // Output   : Messages that fit on each situation
+        // Returns  : submit            send the result whether submit or not. if it is submitted, page will go to Hilo_Input_Number.asp
+        function validName(which){
+            var lettersNSpaces = /^[A-Za-z\s]+$/;
+            var whichName = document.getElementById("Name").value;
+            var submit = false;
+            document.getElementById("NameError").innerHTML = "";
+
+            if((whichName == null) || (whichName.length == 0) ){
+                document.getElementById("NameError").innerHTML = "Insert your name again";
+            }
+            else{
+                if(whichName.match(lettersNSpaces)){
+                    setCookie("InputName", document.Hilo_Form.InputName.value, 1);              // Set the name in the cookie
+                    submit = true;
+                }
+                else{
+                    document.getElementById("NameError").innerHTML = "Name must be consisted of <i>Alpha</i> only.";
+                }
+            }
+            return submit;
+        }
+    </script>
+    <style>
+        body{background-color: rgb(222, 142, 45);}
+        h1{
+            
+            font-style: initial;
+            color: aquamarine;
+
+        }
+        form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+        }
+        p{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 30px;
+            font-style:italic;
+        }
+        .input_centerAlign{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <form name = "Hilo_Form" action="Hilo_Input_Number.asp" method="post" onsubmit="return validName('Name')">
+        <div id = "PageInputNameUser">
+            <h1>Let's Play <i>Hi-lo</i> game!</h1>
+            <hr>
+            <br>
+            <p>What is your name? : </p>
+            <div class="input_centerAlign">
+                <input id = "Name" name = "InputName" type = "text" >
+                <br>
+                <input id = "SubmitName" type = "submit" value = "submit" onclick="validName('Name');">
+            </div>
+        
+            <br>
+            <div id = "NameError" style="color: red;"></div>
+        </div>
+    </form>
+    
+</body>
+</html>
